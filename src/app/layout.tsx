@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner";
 import { ScreenSize } from "@/components/ScreenSize/ScreenSize";
 
@@ -14,13 +15,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <main className=" min-h-screen flex flex-col items-center">
-          {children}
-          <ScreenSize />
-        </main>
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main className="px-4 min-h-screen flex flex-col items-center">
+            {children}
+            <ScreenSize />
+          </main>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

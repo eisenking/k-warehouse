@@ -6,7 +6,6 @@ export const RecipesTable = pgTable('recipes', {
   name: text().notNull(),
   type: text().notNull(),
   portionSize: numeric().default('1'),
-  howTo: text('how_to').default(''),
   createdAt,
   updatedAt,
 });

@@ -1,45 +1,45 @@
 "use client";
-import { LayoutGrid, Menu, Search, Sun, Moon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-
+import { authClient } from "@/lib/auth-client";
 import { Button } from "./ui/button";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import { LayoutGrid, Menu, Search, Sun, Moon } from "lucide-react";
 
 export const navigationItems = [
-  {
-    title: "Traffic Light",
-    href: "/traffic-light",
-    items: [],
-  },
-  {
-    title: "Snake Game",
-    href: "/snake-game",
-    items: [],
-  },
-  {
-    title: "Memory Game",
-    href: "/memory-game",
-    items: [],
-  },
+  { title: "Кондитерская", href: "/main", items: [] },
+  { title: "Кафе", href: "/cafe", items: [] },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const { theme, setTheme } = useTheme();
+  const { data: session, isPending } = authClient.useSession();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  if (!mounted) return null;
 
   return (
-    <nav
-      className="w-full max-w-7xl flex flex-col items-center rounded-full bg-background/20 backdrop-blur-lg md:rounded-full"
-    >
+    <nav className="w-full max-w-7xl flex flex-col items-center rounded-full bg-background/20 backdrop-blur-lg md:rounded-full" suppressHydrationWarning>
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/">
-            <Image
-              src="/logo.svg"
-              alt="Логотип"
-              width={80}
-              height={80}
-            />
+            <Image src="/logo.svg" alt="Логотип" width={80} height={80} />
           </Link>
 
           <div className="hidden gap-4 md:flex">
@@ -51,18 +51,22 @@ export default function Navbar() {
           </div>
         </div>
 
-        <Button variant="ghost" size="icon">
-            <Sun className="size-4" />
-        </Button>
+        <div className="flex items-center gap-2">
+          <Avatar>
+            <AvatarImage
+              src={session?.user?.image || "https://github.com/shadcn.png"}
+              alt="@user"
+            />
+            <AvatarFallback>
+              {session?.user?.name?.charAt(0).toUpperCase() || "?"}
+            </AvatarFallback>
+          </Avatar>
 
-        {/* <div className="hidden md:block">
-          <Button variant="ghost" size="icon">
-            <LayoutGrid className="size-4" />
+          <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            {theme === "light" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+            <span className="sr-only">Toggle theme</span>
           </Button>
-          <Button variant="ghost" size="icon">
-            <Search className="size-4" />
-          </Button>
-        </div> */}
+        </div>
 
         <div className="md:hidden">
           <Button onClick={() => setIsOpen(!isOpen)}>

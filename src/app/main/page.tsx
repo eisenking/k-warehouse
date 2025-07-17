@@ -4,31 +4,17 @@ import Recipes from "@/app/main/components/Recipes/Recipes";
 import Tasks from "@/app/main/components/Tasks/Tasks";
 import Production from "@/app/main/components/Production/Production";
 import Sales from "@/app/main/components/Sales/Sales";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { SignOutButton } from "./components/SignOutButton";
 
 export default async function Main() {
-   
-  const session = await auth.api.getSession({
-      headers: await headers() // you need to pass the headers object.
-  })
-  const user = session?.user;
-  const role = user?.role; 
-
   return (
     <section className="w-full max-w-7xl">
-      <div className="mb-4 flex justify-center items-baseline gap-3">
-        <h2>Здравствуйте, {user?.name}! ваша роль - {role}</h2>
-        <SignOutButton />
-      </div>
       <Tabs defaultValue="warehouse" className="items-center">
-        <TabsList>
-          <TabsTrigger value="warehouse">Склад</TabsTrigger>
+        <TabsList className='flex items-center justify-start flex-wrap h-auto space-y-1'>
+          <TabsTrigger value="warehouse">СкладK</TabsTrigger>
           <TabsTrigger value="recipes">ТехКарты</TabsTrigger>
           <TabsTrigger value="tasks">Задачи</TabsTrigger> 
           <TabsTrigger value="production">Производство</TabsTrigger>          
-          <TabsTrigger value="sales">Продажи</TabsTrigger>
+          <TabsTrigger value="sales" className="mb-1">Продажи</TabsTrigger>
         </TabsList>
         <TabsContent value="warehouse">
           <Warehouse />

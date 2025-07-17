@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { createRecipe } from '@/actions/recipes';
+import { createRecipeAction } from '@/actions/recipes';
 import { getProducts } from '@/actions/products';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -34,7 +34,7 @@ export function AddRecipeForm({ onClose }: { onClose?: () => void }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const result = await createRecipe({
+    const result = await createRecipeAction({
       name,
       portionSize,
       howTo,

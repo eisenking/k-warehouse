@@ -18,11 +18,9 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 })
 
-
 export function LoginForm({ className, ...props }) {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
-
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -44,7 +42,7 @@ export function LoginForm({ className, ...props }) {
             setIsPending(true);
           },
           onSuccess: async () => {
-            router.push("/main");
+            router.push("/cafe");
           },
           onError: (ctx) => {
             toast("Ошибка авторизации", {
@@ -74,8 +72,8 @@ export function LoginForm({ className, ...props }) {
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Вход в Личный Кабинет</CardTitle>
-          <CardDescription>Введите ваш email и пароль для входа в аккаунт</CardDescription>
+          <CardTitle className="text-2xl">Вход</CardTitle>
+          <CardDescription>Введите ваш email и пароль для входа</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={form.handleSubmit(handleSignIn)}>
@@ -87,12 +85,12 @@ export function LoginForm({ className, ...props }) {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Пароль</Label>
-                  <Link
+                  {/* <Link
                     href="/forgot-password"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Забыли пароль?
-                  </Link>
+                  </Link> */}
                 </div>
                 <Input id="password" type="password" {...form.register("password")} required />
               </div>
@@ -100,12 +98,12 @@ export function LoginForm({ className, ...props }) {
                 {isPending ? "Вход..." : "Войти"}
               </Button>
             </div>
-            <div className="mt-4 text-center text-sm">
+            {/* <div className="mt-4 text-center text-sm">
               Нет аккаунта?{" "}
               <Link href="/register" className="underline underline-offset-4">
                 Зарегистрироваться
               </Link>
-            </div>
+            </div> */}
           </form>
         </CardContent>
       </Card>
